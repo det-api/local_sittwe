@@ -339,8 +339,8 @@ export const detailSaleUpdateByDevice = async (topic: string, message) => {
     let data: any[] = message.split(regex);
     // console.log("wk");
     // let [saleLiter, totalPrice] = deviceLiveData.get(data[0]);
-    let saleLiter = data[2]
-    let totalPrice = data[3]
+    let saleLiter = data[2];
+    let totalPrice = data[3];
 
     let query = {
       nozzleNo: data[0],
@@ -372,11 +372,11 @@ export const detailSaleUpdateByDevice = async (topic: string, message) => {
       saleLiter: saleLiter,
       totalPrice: totalPrice,
       asyncAlready: "1",
-      totalizer_liter:
-        lastData[1].totalizer_liter + Number(saleLiter ? saleLiter : 0),
+      totalizer_liter: data[4],
       totalizer_amount:
         lastData[1].totalizer_amount + Number(totalPrice ? totalPrice : 0),
-      devTotalizar_liter:data[4],
+      devTotalizar_liter:
+        lastData[1].totalizer_liter + Number(saleLiter ? saleLiter : 0),
     };
 
     await detailSaleModel.findByIdAndUpdate(lastData[0]._id, updateBody);
@@ -613,12 +613,11 @@ export const detailSaleByDateAndPagi = async (
 };
 
 export const initialDetail = async (body) => {
-  try{
-    body.vocono = Date.now()
-    console.log(body)
+  try {
+    body.vocono = Date.now();
+    console.log(body);
     return await new detailSaleModel(body).save();
-
-  }catch(e) {
+  } catch (e) {
     throw e;
   }
 };
